@@ -146,7 +146,7 @@ class AccessService {
     }
 
     return {
-      code: 201,
+      code: 200,
       metadata: {
         user: getInfoData({
           filter: ["_id", "name", "email"],
@@ -204,7 +204,7 @@ class AccessService {
     if (foundUser) {
       const { _id, email } = foundUser;
       const newUserInfo = await createOrUpdateUserInfo({
-        _id: _id,
+        user_id: _id,
         data: {image: profile._json.picture}
       });
 
@@ -281,7 +281,7 @@ class AccessService {
     });
 
     const newUserInfo = await createOrUpdateUserInfo({
-      _id: newUser._id,
+      user_id: newUser._id,
       data: {image: profile._json.picture}
     });
 
@@ -354,7 +354,7 @@ class AccessService {
       throw new BadRequestError("Error: Send email fail");
     }
     return {
-      code: 201,
+      code: 200,
       metadata: isSend,
     };
   }
@@ -368,7 +368,7 @@ class AccessService {
       expiresIn: "2 days",
     });
     return {
-      code: 201,
+      code: 200,
       metadata: confirmToken,
     }; 
   }
@@ -394,7 +394,10 @@ class AccessService {
       throw new BadRequestError("Error: User does not update");
     }
 
-    return updateUser
+    return {
+      code: 200,
+      metadata: updateUser,
+    }; 
   }
 }
 

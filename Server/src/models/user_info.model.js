@@ -10,16 +10,20 @@ const UserInfoSchema = new Schema({
         ref: 'User',
     },
     address: {
-        type: String,
+        type: Array,
+        default: []
     },
     image: {
         type: String,
+        default: ""
     },
-    delivery: {
+    delivery_address: {
         type: String,
+        default: ""
     },
     phone: {
         type: String,
+        default: ""
     },
 }, {
     timestamps: true,

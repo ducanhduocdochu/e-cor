@@ -4,28 +4,28 @@ const { CREATED, OK, SuccessResponse } = require("../core/success.response");
 class AccessController {
   register = async (req, res, next) => {
     new CREATED({
-      message: "Registered OK!",
+      message: "Register successfully!",
       metadata: await AccessService.register(req.body),
     }).send(res);
   };
 
   login = async (req, res, next) => {
     new OK({
-      message: "Login success",
+      message: "Login successfully",
       metadata: await AccessService.login(req.body),
     }).send(res);
   };
 
   logout = async (req, res, next) => {
     new OK({
-      message: "Log out success",
+      message: "Log out successfully",
       metadata: await AccessService.logout(req.key_token),
     }).send(res);
   };
 
   refresh_token = async (req, res, next) => {
     new CREATED({
-      message: "Refresh Token success",
+      message: "Refresh token successfully",
       metadata: await AccessService.refresh_token(
         req.decodeUser,
         req.key_token
@@ -40,14 +40,14 @@ class AccessController {
 
   loginGoogle = (req, res, next) => {
     new CREATED({
-      message: "Login Google success",
+      message: "Login google successfully",
       metadata: req.user
   }).send(res);
   };
 
   requestVerify = async (req, res, next) => {
     new CREATED({
-      message: "Request verify",
+      message: "Request verify successfully",
       metadata:  await AccessService.requestVerify(
         req.body,
       ),

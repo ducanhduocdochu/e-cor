@@ -7,53 +7,33 @@ const router = express.Router();
 
 /**
  * Lấy thông tin người dùng
- * @params user_id
  */
-router.get('/profile/:user_id', asyncHandler(userController.getProfile));
-
-// Xác thực
-router.use(authentication);
+router.get('/profile', asyncHandler(userController.getProfile));
 
 /**
  * Lấy thông tin người dùng
  * @header user_id
  * @header access_token
- * @role admin, user
+ * @header api_key
  */
-// router.get('/profile', asyncHandler(userController.GetSecurityInfo));
+router.get('/security-info',authentication, asyncHandler(userController.getSecurityInfo));
 
 /**
- * Thay đổi thông tin
+ * Thay đổi thông tin/:user_id
  * @header user_id
  * @header access_token
- * @role admin, user
+ * @header api_key
  */
-// router.put('/profile/phone', asyncHandler(userController.register));
+router.put('/profile',authentication, asyncHandler(userController.updateProfile));
 
-// Thông tin khác
-// router.put('/profile', asyncHandler(accessController.register));
-
-// Đăng ký shop
-// router.post('/register-shop', asyncHandler(shopController.registerShop));
-
-// Đăng ký delivery person
-// router.post('/register-delivery-person', asyncHandler(shopController.registerShop));
-
-// Đăng ký supplier
-// router.post('/register-supplier', asyncHandler(shopController.registerShop));
-
-// router.use(admin);
-
-// Chấp nhận shop
-// router.put('/accept-shop', asyncHandler(accessController.register));
-
-// Chấp nhận người vận chuyển
-// router.put('/accept-delivery-person', asyncHandler(accessController.register));
-
-// Chấp nhận nhà cung cấp
-// router.put('/accept-supplier', asyncHandler(accessController.register));
-
-// Xóa người dùng
-// router.delete('', asyncHandler(accessController.register));
+/**
+ * Đăng ký role
+ * @header user_id
+ * @header access_token
+ * @header api_key
+ * @body type: enum = ["shop", "delivery-person", "supplier"]
+ * @body attribute of type
+ */
+router.post('/register-role', authentication, asyncHandler(userController.registerRole)); // => register_role_draft
 
 module.exports = router;

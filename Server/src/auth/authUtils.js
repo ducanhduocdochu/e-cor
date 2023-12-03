@@ -69,15 +69,13 @@ const verifyJWT = async (token, keySecret) => {
   return await JWT.verify(token, keySecret);
 };
 
-// Tạo mã OTP 6 số ngẫu nhiên
 function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-// Tạo mã OTP và ký hóa nó với thời gian hết hạn
 function generateOTPToken() {
   const otp = generateOTP();
-  const expiresInMinutes = 5; // Thời gian hết hạn của mã OTP (5 phút)
+  const expiresInMinutes = 5;
 
   const payload = {
     otp,
@@ -89,27 +87,18 @@ function generateOTPToken() {
   return { otp, token };
 }
 
-// Sử dụng hàm generateOTPToken để tạo mã OTP và token
-//   const { otp, token } = generateOTPToken();
-//   console.log("Mã OTP mới:", otp);
-//   console.log("Token:", token);
-
 function verifyOTPToken(token, otp) {
   try {
     const decoded = JWT.verify(token, process.env.SECRETKEY_OTP);
 
     if (decoded.otp === otp && decoded.exp > Math.floor(Date.now() / 1000)) {
-      return true; // Mã OTP hợp lệ và chưa hết hạn
+      return true; 
     } else {
-      return false; // Mã OTP không hợp lệ hoặc đã hết hạn
+      return false;
     }
   } catch (error) {
-    return false; // Lỗi xác thực hoặc mã token không hợp lệ
+    return false; 
   }
 }
-
-// Sử dụng hàm verifyOTPToken để xác thực mã OTP
-//   const isOTPValid = verifyOTPToken(token, otp);
-//   console.log("Mã OTP có hợp lệ:", isOTPValid);
 
 module.exports = { createTokenPair, authentication, verifyJWT, generateOTPToken, verifyOTPToken };

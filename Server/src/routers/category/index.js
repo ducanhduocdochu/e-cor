@@ -1,23 +1,46 @@
 const express = require('express');
 const asyncHandler = require('../../helper/asyncHandler');
-const accessController = require('../../controllers/access.controller');
+const categoryController = require('../../controllers/category.controller');
 const { authentication } = require('../../auth/authUtils');
+const { apiKey, permission } = require('../../auth/checkAuth');
 
 const router = express.Router();
 
-// Lấy thông tin danh mục
-// router.get('/delivery/:order_id', asyncHandler(shopController.getShopDetails));
+/**
+ * Lấy thông tin danh mục sản phẩm
+ * @params category_id
+ */
+router.get('/:category_id', asyncHandler(categoryController.getCategory));
 
-router.use(authentication);
-// router.use(admin);
+/**
+ * Lấy thông tin toàn bộ danh mục
+ */
+router.get('/', asyncHandler(categoryController.getCategoryList));
 
-// Create thông tin danh mục
-// router.post('/delivery/:shop_id', asyncHandler(shopController.updateShopDetails));
+/**
+ * Tạo danh mục
+ * @header user-id
+ * @header access-token
+ * @header api-key
+ */
+router.post('/', authentication, apiKey, permission(["admin"]), asyncHandler(categoryController.createCategory));
 
-// Cập nhật thông tin danh mục
-// router.patch('/delivery/:shop_id', asyncHandler(shopController.updateShopDetails));
+/**
+ * Cập nhật thông tin danh mục
+ * @header user-id
+ * @header access-token
+ * @header api-key
+ * @params category_id
+ */
+router.put('/:category_id', authentication, apiKey, permission(["admin"]), asyncHandler(categoryController.updateCategory));
 
-// Xóa thông tin danh mục
-// router.delete('/delivery/:shop_id', asyncHandler(shopController.updateShopDetails));
+/**
+ * Xóa danh mục
+ * @header user-id
+ * @header access-token
+ * @header api-key
+ * @params category_id
+ */
+router.delete('/:category_id', authentication, apiKey, permission(["admin"]), asyncHandler(categoryController.deleteCategory));
 
 module.exports = router;

@@ -35,39 +35,43 @@ const apiKey = async (req, res, next) => {
                 message: 'Forbidden Error',
             });
         }
-        apiKey = decodeApiKey(key)
-        objKey = apiKey.permissions
-        // Check objKey
-        if (!objKey) {
+        const apiKey = await decodeApiKey(key)
+        const permissions = apiKey.permissions
+        if (!permissions) {
             return res.status(403).json({
                 message: 'Forbidden Error',
             });
         }
 
-        req.objKey = objKey;
+        req.permissions = permissions;
         return next();
     } catch (error) {
-        // Handle the error appropriately
+        return next(error)
     }
 };
 
 const permission = (requiredPermission) => {
     return (req, res, next) => {
-        if (!req.objKey.permissions) {
+        if (!req.permissions) {
             return res.status(403).json({
                 message: 'Permission denied',
             });
         }
 
-        const validPermission = req.objKey.permissions.includes(requiredPermission);
+        const missingElements = requiredPermission.filter((element) => {
+            return  !req.permissions.includes(element)
+        });
 
-        if (!validPermission) {
+        if (missingElements.length === 0){
+            return next();
+        }
+        else{
             return res.status(403).json({
                 message: 'Permission denied',
             });
         }
 
-        return next();
+
     };
 };
 
