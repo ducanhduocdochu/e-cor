@@ -34,8 +34,6 @@ class CategoryService {
     };
   };
   static updateCategory = async ({ category_id }, data) => {
-    console.log("category_id: ", category_id)
-    console.log("data: ", data)
     const updateCategory = await createOrUpdateCategory({category_id, data})
     if(!updateCategory){
       throw new BadRequestError("Error: Create failure category")

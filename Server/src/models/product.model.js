@@ -23,7 +23,12 @@ const productSchema = new Schema(
       max: [5, "Rating must be above 5.0"],
       set: (val) => Math.round(val * 10) / 10,
     },
-    product_variations: { type: Array, default: [] },
+    product_attributes: {
+      type: Map, 
+      of: String,
+      default: {},
+    },
+    // product_variations: { type: Array, default: [] },
     isDraft: { type: Boolean, default: true, index: true, select: false },
     isPublished: { type: Boolean, default: false, index: true, select: false },
   },
@@ -42,51 +47,6 @@ productSchema.pre("save", function (next) {
   next();
 });
 
-// define the product type = clothing
-// find in category
-
-const clothingSchema = new Schema(
-  {
-    brand: String,
-    size: String,
-    material: String,
-    shop_id: { type: Schema.Types.ObjectId, ref: "Shop" },
-  },
-  {
-    collection: "clothes",
-    timestamps: true,
-  }
-);
-
-const electronicSchema = new Schema(
-  {
-    manufacturer: String,
-    model: String,
-    color: String,
-    shop_id: { type: Schema.Types.ObjectId, ref: "Shop" },
-  },
-  {
-    collection: "electronics",
-    timestamps: true,
-  }
-);
-
-const furnitureSchema = new Schema(
-  {
-    brand: String,
-    size: String,
-    material: String,
-    shop_id: { type: Schema.Types.ObjectId, ref: "Shop" },
-  },
-  {
-    collection: "furnitures",
-    timestamps: true,
-  }
-);
-
 module.exports = {
   product: model(DOCUMENT_NAME, productSchema),
-  electronic: model("Electronic", electronicSchema),
-  clothing: model("Clothing", clothingSchema),
-  furniture: model("Furniture", furnitureSchema),
 };

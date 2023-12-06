@@ -12,16 +12,16 @@ router.use(authentication);
 router.use(permission(["admin"]));
 
 /**
- * Yêu cầu đổi mật khẩu hoặc quên mật khẩu hoặc xác nhận email
+ * Xác nhận quyền user
  * @header user-id
  * @header access-token
  * @header api-key
  * @params type
  */
-router.put('/accept-role', asyncHandler(adminController.acceptRole));
+router.put('/accept-role/:_id', asyncHandler(adminController.acceptRole));
 
 /**
- * Yêu cầu đổi mật khẩu hoặc quên mật khẩu hoặc xác nhận email
+ * Xóa người dùng
  * @header user-id
  * @header access-token
  * @header api-key
@@ -30,7 +30,7 @@ router.put('/accept-role', asyncHandler(adminController.acceptRole));
 router.delete('/user/:user_id', asyncHandler(adminController.deleteUser));
 
 /**
- * Yêu cầu đổi mật khẩu hoặc quên mật khẩu hoặc xác nhận email
+ * Lấy thông tin chi tiết người dùng
  * @header user-id
  * @header access-token
  * @header api-key
@@ -39,13 +39,21 @@ router.delete('/user/:user_id', asyncHandler(adminController.deleteUser));
 router.get('/user/:user_id',asyncHandler(adminController.getUser));
 
 /**
- * Yêu cầu đổi mật khẩu hoặc quên mật khẩu hoặc xác nhận email
+ * Lấy thông tin toàn bộ người dùng
  * @header user-id
  * @header access-token
  * @header api-key
  * @params type
  */
 router.get('/user', asyncHandler(adminController.getListUser));
+
+/**
+ * Lấy toàn bộ thông tin yêu cầu xác nhận quyền
+ * @header user-id
+ * @header access-token
+ * @header api-key
+ */
+router.get('/get-request-role', asyncHandler(adminController.getRequestRole));
 
 
 module.exports = router;

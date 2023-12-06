@@ -58,6 +58,9 @@ const permission = (requiredPermission) => {
             });
         }
 
+        console.log(requiredPermission)
+        console.log(req.permissions)
+
         const missingElements = requiredPermission.filter((element) => {
             return  !req.permissions.includes(element)
         });

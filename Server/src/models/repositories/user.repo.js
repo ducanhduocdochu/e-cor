@@ -1,3 +1,5 @@
+const registerRoleDraftModel = require("../register_role_draft.model");
+const ShopModel = require("../shop_info.model");
 const userModel = require("../user.model");
 const userInfoModel = require("../user_info.model");
 const userRoleModel = require("../user_role.model");
@@ -83,6 +85,50 @@ const getListUser = async ({limit, sortField, sortOrder}) => {
       .sort({ [sortField]: sortOrder }); 
 };
 
+const getRegisterRoleDraftById = async ({_id}) => {
+  return await registerRoleDraftModel
+      .findOne({_id})
+};
+
+const createRegisterRoleDraft = async ({_id, type, data}) => {
+  return await registerRoleDraftModel.create({
+    user_id: _id,
+    type,
+    data
+})};
+
+const getListRegisterRoleDraft = async ({limit, sortField, sortOrder}) => {
+  return await registerRoleDraftModel
+      .find()
+      .limit(limit)
+      .sort({ [sortField]: sortOrder }); 
+};
+
+const deleteRegisterRoleDraftById = async ({ _id }) => {
+  return await registerRoleDraftModel.deleteOne({ _id });
+};
+
+const createShop = async ({ user_id, data }) => {
+  return await ShopModel.create({
+    user_id,
+    ...dataObject
+  });
+};
+
+const findShop = async ({ shop_id }) => {
+  return await ShopModel.findOne({_id: shop_id})
+};
+
+const createOrUpdateShopDetail = async ({shop_id, data}) => {
+  return await ShopModel.findOneAndUpdate(
+    {_id: shop_id},
+    data, 
+    { upsert: true, new: true },
+  );
+}
+
+
+
 module.exports = {
   findUserById,
   findUserByEmail,
@@ -96,5 +142,12 @@ module.exports = {
   deleteUser,
   getListUser,
   deleteUserInfo,
-  deleteUserRole
+  deleteUserRole,
+  createRegisterRoleDraft,
+  getListRegisterRoleDraft,
+  getRegisterRoleDraftById,
+  createShop,
+  deleteRegisterRoleDraftById,
+  findShop,
+  createOrUpdateShopDetail
 };

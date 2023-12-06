@@ -11,7 +11,7 @@ const ShopSchema = new Schema(
       ref: 'User',
     },
     address: {
-      type: [String],
+      type: String,
       required: true,
     },
     image: {
@@ -22,11 +22,6 @@ const ShopSchema = new Schema(
       type: String,
       require: true,
     },
-    categories: {
-        type: [{type: Schema.Types.ObjectId ,ref: 'Category',}],
-        default: [],
-        require: true,
-      },
   },
   {
     timestamps: true,

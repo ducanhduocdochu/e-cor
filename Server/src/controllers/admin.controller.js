@@ -5,7 +5,7 @@ class AdminController {
   acceptRole = async (req, res, next) => {
     new OK({
       message: "Accept role successfully",
-      metadata: await AdminService.acceptRole(),
+      metadata: await AdminService.acceptRole(req.params),
     }).send(res);
   };
 
@@ -29,6 +29,13 @@ class AdminController {
       metadata: await AdminService.getUser(req.params),
     }).send(res);
   };
+
+  getRequestRole = async (req, res, next) => {
+    new OK({
+      message: "Get request role successfully",
+      metadata: await AdminService.getRequestRole(req.query),
+    }).send(res);
+  }
 }
 
 module.exports = new AdminController();
