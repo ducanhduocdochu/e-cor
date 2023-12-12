@@ -5,11 +5,6 @@ const COLLECTION_NAME = "RegisterRoleDrafts";
 
 const RegisterRoleDraftSchema = new Schema(
   {
-    user_id: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: "User",
-    },
     type: {
       type: String,
       required: true,

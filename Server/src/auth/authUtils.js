@@ -26,10 +26,10 @@ const createTokenPair = async (payload, public_key, private_key) => {
 };
 
 const authentication = asyncHandler(async (req, res, next) => {
-  const user_id = req.headers[HEADER.CLIENT_ID];
-  if (!user_id) throw new AuthFailureError("Invalid request");
+  const _id = req.headers[HEADER.CLIENT_ID];
+  if (!_id) throw new AuthFailureError("Invalid request");
   const key_token = await findTokenByUserId({
-    user_id: convertToObjectIdMongodb(user_id),
+    _id: convertToObjectIdMongodb(_id),
   });
   if (!key_token) throw new NotFoundError("Not found keyStore");
 
@@ -37,7 +37,7 @@ const authentication = asyncHandler(async (req, res, next) => {
     try {
       const refresh_token = req.headers[HEADER.REFRESHTOKEN];
       const decodeUser = await verifyJWT(refresh_token, key_token.private_key);
-      if (user_id !== decodeUser._id.toString())
+      if (_id !== decodeUser._id.toString())
         throw new AuthFailureError("Invalid userId");
       if (key_token.refresh_token !== refresh_token) {
         throw new AuthFailureError("User not registered");
@@ -55,7 +55,7 @@ const authentication = asyncHandler(async (req, res, next) => {
 
   try {
     const decodeUser = await verifyJWT(access_token, key_token.public_key);
-    if (user_id != decodeUser._id.toString())
+    if (_id != decodeUser._id.toString())
       throw new AuthFailureError("Invalid userId");
     req.key_token = key_token;
     req.decodeUser = decodeUser;

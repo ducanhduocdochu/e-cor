@@ -5,11 +5,6 @@ const COLLECTION_NAME = 'Suppliers';
 
 const SupplierSchema = new Schema(
   {
-    user_id: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'User',
-    },
     supplier_name: {
       type: String,
       required: true,

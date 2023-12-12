@@ -5,11 +5,6 @@ const COLLECTION_NAME = 'KeyTokens';
 
 const KeyTokenSchema = new Schema(
   {
-    user_id: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'User',
-    },
     public_key: {
       type: String,
       required: true,

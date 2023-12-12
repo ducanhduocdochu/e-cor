@@ -8,17 +8,17 @@ const router = express.Router();
 
 /**
  * Lấy thông tin chi tiết của shop
- * @params shop_id
+ * @params _id
  */
-router.get('/:shop_id', asyncHandler(shopController.getShopDetails));
+router.get('/:_id', asyncHandler(shopController.getShopDetails));
 
 /**
  * Sửa thông tin chi tiết của shop
  * @header user-id
  * @header access-token
  * @header api-key
- * @params shop_id
+ * @params _id
  */
-router.put('/:shop_id',authentication, apiKey, permission(["shop"]), asyncHandler(shopController.updateShopDetails));
+router.put('/:_id',authentication, apiKey, permission(["shop"]), asyncHandler(shopController.updateShopDetails));
 
 module.exports = router;

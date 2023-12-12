@@ -1,27 +1,27 @@
 const ApiKeyModel = require("../apikey.model");
 
-const findApiKeyByUserId = async ({ user_id }) => {
-    return await ApiKeyModel.findOne({ user_id }).lean();
+const findApiKeyByUserId = async ({ _id }) => {
+    return await ApiKeyModel.findOne({ _id }).lean();
   };
 
 const createNewApiKey = async ({
-  user_id,
+  _id,
   api_key
 }) => {
   const newToken = await ApiKeyModel.create({
-    user_id,
+    _id,
     api_key
   });
   return newToken;
 };
 
 const updateApiKeyByUserId = async ({
-  user_id,
+  _id,
   api_key
 }) => {
     return await ApiKeyModel.updateOne(
     {
-      user_id,
+      _id,
     },
     {
         api_key
@@ -29,15 +29,15 @@ const updateApiKeyByUserId = async ({
   );
 };
 
-const deleteApiKeyByUserId = async ({ user_id }) => {
-  return await ApiKeyModel.deleteOne({ user_id }).lean();
+const deleteApiKeyByUserId = async ({ _id }) => {
+  return await ApiKeyModel.deleteOne({ _id }).lean();
 };
 
 const createOrUpdateApiKey = async ({
-  user_id,
+  _id,
   api_key
 }) => {
-  const filter = { user_id };
+  const filter = { _id };
   const update = {
     api_key
   };

@@ -1,17 +1,17 @@
 const KeyTokenModel = require("../keytoken.model");
 
-const findTokenByUserId = async ({ user_id }) => {
-  return await KeyTokenModel.findOne({ user_id }).lean();
+const findTokenByUserId = async ({ _id }) => {
+  return await KeyTokenModel.findOne({ _id }).lean();
 };
 
 const createKeyToken = async ({
-  user_id,
+  _id,
   private_key,
   public_key,
   refresh_token,
 }) => {
   const newToken = await KeyTokenModel.create({
-    user_id,
+    _id,
     private_key,
     public_key,
     refresh_token,
@@ -20,14 +20,14 @@ const createKeyToken = async ({
 };
 
 const updateKeyTokenByUserId = async ({
-  user_id,
+  _id,
   private_key,
   public_key,
   refresh_token,
 }) => {
   const newToken = await KeyTokenModel.updateOne(
     {
-      user_id,
+      _id,
     },
     {
       private_key,
@@ -42,8 +42,8 @@ const removeKeyById = async ({ _id }) => {
   return KeyTokenModel.deleteOne({ _id }).lean();
 };
 
-const deleteKeyByUserId = async ({ user_id }) => {
-  return await KeyTokenModel.deleteOne({ user_id }).lean();
+const deleteKeyByUserId = async ({ _id }) => {
+  return await KeyTokenModel.deleteOne({ _id }).lean();
 };
 
 const updateKeyById = async ({ refresh_token, key_token }) => {
@@ -60,14 +60,13 @@ const updateKeyById = async ({ refresh_token, key_token }) => {
 };
 
 const createOrUpdateKeyToken = async ({
-  user_id,
+  _id,
   private_key,
   public_key,
   refresh_token,
 }) => {
-  const filter = { user_id };
+  const filter = { _id };
   const update = {
-    user_id,
     private_key,
     public_key,
     refresh_token,

@@ -9,9 +9,9 @@ const {
 const { convertToObjectIdMongodb } = require("../utils");
 
 class UserService {
-  static getProfile = async ({ user_id }) => {
+  static getProfile = async ({ _id }) => {
     const user_info = await findUserInfoByUserId({
-      user_id: convertToObjectIdMongodb(user_id),
+      _id: convertToObjectIdMongodb(_id),
     });
     if (!user_info) {
       throw new BadRequestError("Error: user_id does not exist ");
@@ -34,7 +34,7 @@ class UserService {
   };
 
   static updateProfile = async ({ _id }, data) => {
-    const user = await createOrUpdateUserInfo({ user_id: _id, data });
+    const user = await createOrUpdateUserInfo({ _id, data });
     if (!user) {
       throw new BadRequestError("Error: user does not exist or update fail ");
     }

@@ -27,7 +27,7 @@ router.put('/accept-role/:_id', asyncHandler(adminController.acceptRole));
  * @header api-key
  * @params type
  */
-router.delete('/user/:user_id', asyncHandler(adminController.deleteUser));
+router.delete('/user/:_id', asyncHandler(adminController.deleteUser));
 
 /**
  * Lấy thông tin chi tiết người dùng
@@ -36,7 +36,7 @@ router.delete('/user/:user_id', asyncHandler(adminController.deleteUser));
  * @header api-key
  * @params type
  */
-router.get('/user/:user_id',asyncHandler(adminController.getUser));
+router.get('/user/:_id',asyncHandler(adminController.getUser));
 
 /**
  * Lấy thông tin toàn bộ người dùng

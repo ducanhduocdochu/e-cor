@@ -52,15 +52,15 @@ class AccessService {
     });
 
     const newUserRole = await createUserRole({
-      user_id: newUser._id,
+      _id: newUser._id,
     });
 
     const newUserInfo = await createUserInfo({
-      user_id: newUser._id,
+      _id: newUser._id,
     });
 
     if (!newUser || !newUserRole || !newUserInfo) {
-      throw new BadRequestError("Error: User already registered");
+      throw new BadRequestError("Error: Register fail");
     }
 
     return {
@@ -94,7 +94,7 @@ class AccessService {
     );
 
     const foundUserRole = await findUserRoleByUserId({
-      user_id: foundUser._id,
+      _id: foundUser._id,
     });
 
     const apikey = await createApiKey({
@@ -109,20 +109,20 @@ class AccessService {
       ],
     });
 
-    const _key_token = await findTokenByUserId({ user_id: _id });
-    const _api_key = await findApiKeyByUserId({ user_id: _id });
+    const _key_token = await findTokenByUserId({ _id: _id });
+    const _api_key = await findApiKeyByUserId({ _id: _id });
     var key_token;
     var api_key;
     if (_key_token) {
       key_token = await updateKeyTokenByUserId({
-        user_id: foundUser._id,
+        _id: foundUser._id,
         public_key,
         private_key,
         refresh_token: tokens.refresh_token,
       });
     } else {
       key_token = await createKeyToken({
-        user_id: foundUser._id,
+        _id: foundUser._id,
         public_key,
         private_key,
         refresh_token: tokens.refresh_token,
@@ -131,12 +131,12 @@ class AccessService {
 
     if (_api_key) {
       api_key = await updateApiKeyByUserId({
-        user_id: foundUser._id,
+        _id: foundUser._id,
         apikey,
       });
     } else {
       api_key = await createNewApiKey({
-        user_id: foundUser._id,
+        _id: foundUser._id,
         api_key: apikey,
       });
     }
@@ -160,8 +160,8 @@ class AccessService {
 
   static logout = async (key_token) => {
     return (
-      (await deleteKeyByUserId({ user_id: key_token.user_id })) &&
-      (await deleteApiKeyByUserId({ user_id: key_token.user_id }))
+      (await deleteKeyByUserId({ _id: key_token._id })) &&
+      (await deleteApiKeyByUserId({ _id: key_token._id }))
     );
   };
 
@@ -169,7 +169,6 @@ class AccessService {
     const { _id, email } = decodeUser;
     const foundUser = await findUserByEmail({ email });
     if (!foundUser) throw new AuthFailureError("User not registered");
-    console.log(key_token);
 
     const tokens = await createTokenPair(
       { _id, email },
@@ -181,8 +180,8 @@ class AccessService {
       throw new BadRequestError("Error: Token error");
     }
 
-    const isSuccess = await updateKeyTokenByUserId({
-      user_id: key_token.user_id,
+    const isSuccess = await updateKeyTokenByUserId({ 
+      _id: key_token._id,
       public_key: key_token.public_key,
       private_key: key_token.public_key,
       refresh_token: tokens.refresh_token,
@@ -204,7 +203,7 @@ class AccessService {
     if (foundUser) {
       const { _id, email } = foundUser;
       const newUserInfo = await createOrUpdateUserInfo({
-        user_id: _id,
+        _id: _id,
         data: {image: profile._json.picture}
       });
 
@@ -222,7 +221,7 @@ class AccessService {
       );
 
       const foundUserRole = await findUserRoleByUserId({
-        user_id: _id,
+        _id: _id,
       });
 
       const apikey = await createApiKey({
@@ -238,14 +237,14 @@ class AccessService {
       });
 
       const key_token_ = await createOrUpdateKeyToken({
-        user_id: _id,
+        _id: _id,
         public_key,
         private_key,
         refresh_token: tokens.refresh_token,
       });
   
       const api_key_ = await createOrUpdateApiKey({
-        user_id: _id,
+        _id: _id,
         api_key: apikey,
       });
 
@@ -277,11 +276,11 @@ class AccessService {
     });
 
     const newUserRole = await createUserRole({
-      user_id: newUser._id,
+      _id: newUser._id,
     });
 
     const newUserInfo = await createOrUpdateUserInfo({
-      user_id: newUser._id,
+      _id: newUser._id,
       data: {image: profile._json.picture}
     });
 
@@ -299,7 +298,7 @@ class AccessService {
     );
 
     const foundUserRole = await findUserRoleByUserId({
-      user_id: newUser._id,
+      _id: newUser._id,
     });
 
     const apikey = await createApiKey({
@@ -315,14 +314,14 @@ class AccessService {
     });
 
     const key_token_ = await createOrUpdateKeyToken({
-      user_id: newUser._id,
+      _id: newUser._id,
       public_key,
       private_key,
       refresh_token: tokens.refresh_token,
     });
 
     const api_key_ = await createOrUpdateApiKey({
-      user_id: newUser._id,
+      _id: newUser._id,
       api_key: apikey,
     });
 

@@ -1,5 +1,5 @@
 const ProductFactory = require("../services/product.service");
-const { OK } = require("../utils/statusCodes");
+const { CREATED, OK } = require("../core/success.response");
 
 class ProductController {
   async getListSearchProduct(req, res, next) {
@@ -12,7 +12,7 @@ class ProductController {
   async findAllProducts(req, res, next) {
     new OK({
       message: "Get all product successfully",
-      metadata: await ProductFactory.findAllProducts(),
+      metadata: await ProductFactory.findAllProducts(req.query),
     }).send(res);
   }
 
@@ -26,21 +26,21 @@ class ProductController {
   async getAllProductsForShop(req, res, next) {
     new OK({
       message: "Get all product successfully",
-      metadata: await ProductFactory.getAllProductsForShop(req.params),
+      metadata: await ProductFactory.getAllProductsForShop(req.params, req.query),
     }).send(res);
   }
 
   async createProduct(req, res, next) {
-    new OK({
+    new CREATED({
       message: "Created product successfully",
-      metadata: await ProductFactory.createProduct(req.params),
+      metadata: await ProductFactory.createProduct(req.decodeUser, req.params, req.body),
     }).send(res);
   }
 
   async updateProduct(req, res, next) {
-    new OK({
+    new CREATED({
       message: "Updated product successfully",
-      metadata: await ProductFactory.updateProduct(req.params),
+      metadata: await ProductFactory.updateProduct(req.params, req.body),
     }).send(res);
   }
 
@@ -52,14 +52,14 @@ class ProductController {
   }
 
   async publishProductByShop(req, res, next) {
-    new OK({
+    new CREATED({
       message: "Publish product successfully",
       metadata: await ProductFactory.publishProductByShop(req.params),
     }).send(res);
   }
 
   async unPublishProductByShop(req, res, next) {
-    new OK({
+    new CREATED({
       message: "Unpublish product successfully",
       metadata: await ProductFactory.unPublishProductByShop(req.params),
     }).send(res);
@@ -68,14 +68,14 @@ class ProductController {
   async getAllDraftsForShop(req, res, next) {
     new OK({
       message: "Get product successfully",
-      metadata: await ProductFactory.publishProductByShop(req.params),
+      metadata: await ProductFactory.getAllDraftsForShop(req.decodeUser, req.query),
     }).send(res);
   }
 
   async getAllPublishForShop(req, res, next) {
     new OK({
       message: "Get product successfully",
-      metadata: await ProductFactory.unPublishProductByShop(req.params),
+      metadata: await ProductFactory.getAllPublishForShop(req.decodeUser, req.query),
     }).send(res);
   }
 }

@@ -5,11 +5,10 @@ const COLLECTION_NAME = 'DeliveryPersons';
 
 const DeliveryPersonSchema = new Schema(
   {
-    user_id: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'User',
-    },
+    location: {
+      type: String,
+      require: true
+    }
   },
   {
     timestamps: true,

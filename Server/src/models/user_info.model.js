@@ -4,11 +4,6 @@ const DOCUMENT_NAME = 'UserInfo';
 const COLLECTION_NAME = 'UserInfos';
 
 const UserInfoSchema = new Schema({
-    user_id: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: 'User',
-    },
     address: {
         type: Array,
         default: []

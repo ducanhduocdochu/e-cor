@@ -1,10 +1,10 @@
-import { Router } from 'express';
-import { authentication } from '../../auth/authUtils';
-import productController from '../../controllers/product.controller';
-import asyncHandler from '../../helper/asyncHandler';
-import { apiKey, permission } from '../../auth/checkAuth';
+const express = require('express');
+const asyncHandler = require('../../helper/asyncHandler');
+const productController = require('../../controllers/product.controller');
+const { authentication } = require('../../auth/authUtils');
+const { apiKey, permission } = require('../../auth/checkAuth');
 
-const router = Router();
+const router = express.Router();
 
 /**
  * Tìm kiếm sản phẩm
@@ -14,17 +14,11 @@ router.get('/search/:keySearch', asyncHandler(productController.getListSearchPro
 
 /**
  * Lấy toàn bộ sản phẩm
- * @header user_id
- * @header api_key
- * @header access_token
  */
 router.get('', asyncHandler(productController.findAllProducts));
 
 /**
  * Lấy một sản phẩm
- * @header user_id
- * @header api_key
- * @header access_token
  * @params product_id
  */
 router.get('/:product_id', asyncHandler(productController.findProduct));
@@ -43,9 +37,10 @@ router.get('/shop/:shop_id', authentication, apiKey, permission(["shop"]), async
  * @header user_id
  * @header api_key
  * @header access_token
- * @params product_id
+ * @params type
+ * @body
  */
-router.post('',authentication, apiKey, permission(["shop"]), asyncHandler(productController.createProduct));
+router.post('/:type',authentication, apiKey, permission(["shop"]), asyncHandler(productController.createProduct));
 
 /**
  * Cập nhật sản phẩm
@@ -81,7 +76,7 @@ router.post('/publish/:product_id',authentication, apiKey, permission(["shop"]),
  * @header access_token
  * @params product_id
  */
-router.post('/unPublish/:product_id',authentication, apiKey, permission(["shop"]), asyncHandler(productController.unPublishProductByShop));
+router.post('/un-publish/:product_id',authentication, apiKey, permission(["shop"]), asyncHandler(productController.unPublishProductByShop));
 
 /**
  * Lấy toàn bộ sản phẩm nháp
@@ -90,7 +85,7 @@ router.post('/unPublish/:product_id',authentication, apiKey, permission(["shop"]
  * @header access_token
  * @params product_id
  */
-router.get('/drafts/all', authentication, apiKey, permission(["shop"]),asyncHandler(productController.getAllDraftsForShop));
+router.get('/drafts', authentication, apiKey, permission(["shop"]),asyncHandler(productController.getAllDraftsForShop));
 
 /**
  * Lấy toàn bộ sản phẩm công khai
@@ -99,8 +94,6 @@ router.get('/drafts/all', authentication, apiKey, permission(["shop"]),asyncHand
  * @header access_token
  * @params product_id
  */
-router.get('/published/all',authentication, apiKey, permission(["shop"]), asyncHandler(productController.getAllPublishForShop));
+router.get('/published',authentication, apiKey, permission(["shop"]), asyncHandler(productController.getAllPublishForShop));
 
-export default router;
-
-
+module.exports = router;

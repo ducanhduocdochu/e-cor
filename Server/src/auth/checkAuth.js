@@ -1,5 +1,7 @@
 const JWT = require('jsonwebtoken');
 const passport = require('passport');
+const ShopModel = require('../models/shop_info.model');
+const asyncHandler = require('../helper/asyncHandler');
 
 const HEADER = {
     API_KEY: 'x-api-key',
@@ -51,20 +53,17 @@ const apiKey = async (req, res, next) => {
 };
 
 const permission = (requiredPermission) => {
-    return (req, res, next) => {
+    return asyncHandler(async (req, res, next) => {
         if (!req.permissions) {
             return res.status(403).json({
                 message: 'Permission denied',
             });
         }
-
-        console.log(requiredPermission)
-        console.log(req.permissions)
-
+        
         const missingElements = requiredPermission.filter((element) => {
             return  !req.permissions.includes(element)
         });
-
+        
         if (missingElements.length === 0){
             return next();
         }
@@ -75,7 +74,7 @@ const permission = (requiredPermission) => {
         }
 
 
-    };
+    })
 };
 
 function authenticateGoogle(req, res, next) {

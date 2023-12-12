@@ -4,11 +4,6 @@ const DOCUMENT_NAME = 'UserRole';
 const COLLECTION_NAME = 'UserRoles';
 
 const UserRoleSchema = new Schema({
-    user_id: {
-        type: String,
-        unique: true,
-        required: true,
-    },
     is_user: {
         type: Boolean,
         default: true

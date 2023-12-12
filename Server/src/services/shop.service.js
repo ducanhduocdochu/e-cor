@@ -2,8 +2,8 @@ const { NotFoundError } = require("../core/error.response");
 const { findShop, createOrUpdateShopDetail } = require("../models/repositories/user.repo");
 
 class ShopService {
-  static getShopDetails = async ({ shop_id }) => {
-    const foundShop = await findShop({ shop_id });
+  static getShopDetails = async ({ _id }) => {
+    const foundShop = await findShop({ _id });
     if (!foundShop) {
       throw new NotFoundError("Error: No shop exist");
     }
@@ -13,8 +13,8 @@ class ShopService {
     };
   };
 
-  static updateShopDetails = async ({ shop_id }, data) => {
-    const Shop = await createOrUpdateShopDetail({ shop_id, data });
+  static updateShopDetails = async ({ _id }, data) => {
+    const Shop = await createOrUpdateShopDetail({ _id, data });
     if (!Shop) {
       throw new NotFoundError("Error: Update fail");
     }

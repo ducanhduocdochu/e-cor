@@ -12,7 +12,8 @@ const {
   getListRegisterRoleDraft,
   getRegisterRoleDraftById,
   createShop,
-  deleteRegisterRoleDraftById
+  deleteRegisterRoleDraftById,
+  updateRole
 } = require("../models/repositories/user.repo");
 
 class AdminService {
@@ -22,9 +23,11 @@ class AdminService {
       throw new NotFoundError("Error: no request role exist")
     }
     if (requestRole.type == "shop"){
-      const newShop = await createShop({user_id: requestRole.user_id, data: requestRole.data})
+      const newShop = await createShop({_id, data: requestRole.data})
+      const roleUser = await updateRole({_id}, {isShop: true})
       const deletedRequestRole = await deleteRegisterRoleDraftById({_id})
-      if (!newShop || !deletedRequestRole){
+
+      if (!newShop || !deletedRequestRole || !roleUser){
         throw new NotFoundError("Error: create failure shop")
       }
       return {
@@ -33,12 +36,12 @@ class AdminService {
       };
     }
   };
-  static deleteUser = async ({ user_id }) => {
-    const user = await deleteUser({ _id: user_id });
-    const user_info = await deleteUserInfo({ user_id });
-    const user_role = await deleteUserRole({ user_id });
-    const api_key = await deleteApiKeyByUserId({ user_id });
-    const key_token = await deleteKeyByUserId({ user_id });
+  static deleteUser = async ({ _id }) => {
+    const user = await deleteUser({ _id });
+    const user_info = await deleteUserInfo({ _id });
+    const user_role = await deleteUserRole({ _id });
+    const api_key = await deleteApiKeyByUserId({ _id });
+    const key_token = await deleteKeyByUserId({ _id });
     return {
       code: "200",
       metadata: {
@@ -64,10 +67,10 @@ class AdminService {
       metadata: listUser,
     };
   };
-  static getUser = async ({ user_id }) => {
-    const user = await findUserById({ _id: user_id });
-    const user_info = await findUserInfoByUserId({ user_id });
-    const user_role = await findUserRoleByUserId({ user_id });
+  static getUser = async ({ _id }) => {
+    const user = await findUserById({ _id: _id });
+    const user_info = await findUserInfoByUserId({ _id });
+    const user_role = await findUserRoleByUserId({ _id });
     if (!user || !user_info || !user_role) {
       throw new NotFoundError("Error: No user exist");
     }

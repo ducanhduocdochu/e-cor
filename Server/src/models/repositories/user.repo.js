@@ -17,9 +17,9 @@ const findUserByEmail = async ({ email }) => {
   });
 };
 
-const findUserInfoByUserId = async ({ user_id }) => {
+const findUserInfoByUserId = async ({ _id }) => {
   return await userInfoModel.findOne({
-    user_id,
+    _id,
   });
 };
 
@@ -32,17 +32,21 @@ const createUser = async ({ username, email, password }) => {
   });
 };
 
-const findUserRoleByUserId = async ({ user_id }) => {
+const findUserRoleByUserId = async ({ _id }) => {
   return await userRoleModel.findOne({
-    user_id,
+    _id,
   });
 };
 
-const createUserRole = async ({ user_id }) => {
+const createUserRole = async ({ _id }) => {
     return await userRoleModel.create({
-      user_id,
+      _id,
     });
   };
+
+const updateRole = async ({_id}) => {
+  return await userRoleModel.updateOne({_id}, {is_shop: true})
+}
 
 const createOrUpdateUser = async ({_id, email, password, verify, username, type}) => {
   return await userModel.findOneAndUpdate(
@@ -52,15 +56,15 @@ const createOrUpdateUser = async ({_id, email, password, verify, username, type}
   );
 }
 
-const createUserInfo = async ({ user_id }) => {
+const createUserInfo = async ({ _id }) => {
   return await userInfoModel.create({
-    user_id,
+    _id,
   });
 };
 
-const createOrUpdateUserInfo = async ({user_id, data}) => {
+const createOrUpdateUserInfo = async ({_id, data}) => {
   return await userInfoModel.findOneAndUpdate(
-    {user_id},
+    {_id},
     data, 
     { upsert: true, new: true },
   );
@@ -70,12 +74,12 @@ const deleteUser = async ({ _id }) => {
   return userModel.deleteOne({ _id });
 };
 
-const deleteUserInfo = async ({ user_id }) => {
-  return userInfoModel.deleteOne({ user_id });
+const deleteUserInfo = async ({ _id }) => {
+  return userInfoModel.deleteOne({ _id });
 };
 
-const deleteUserRole = async ({ user_id }) => {
-  return userRoleModel.deleteOne({ user_id });
+const deleteUserRole = async ({ _id }) => {
+  return userRoleModel.deleteOne({ _id });
 };
 
 const getListUser = async ({limit, sortField, sortOrder}) => {
@@ -92,7 +96,7 @@ const getRegisterRoleDraftById = async ({_id}) => {
 
 const createRegisterRoleDraft = async ({_id, type, data}) => {
   return await registerRoleDraftModel.create({
-    user_id: _id,
+    _id: _id,
     type,
     data
 })};
@@ -108,20 +112,22 @@ const deleteRegisterRoleDraftById = async ({ _id }) => {
   return await registerRoleDraftModel.deleteOne({ _id });
 };
 
-const createShop = async ({ user_id, data }) => {
+const createShop = async ({ _id, data }) => {
+  const dataObject = Object.fromEntries(data);
+  console.log(data)
   return await ShopModel.create({
-    user_id,
+    _id,
     ...dataObject
   });
 };
 
-const findShop = async ({ shop_id }) => {
-  return await ShopModel.findOne({_id: shop_id})
+const findShop = async ({ _id }) => {
+  return await ShopModel.findOne({_id: _id})
 };
 
-const createOrUpdateShopDetail = async ({shop_id, data}) => {
+const createOrUpdateShopDetail = async ({_id, data}) => {
   return await ShopModel.findOneAndUpdate(
-    {_id: shop_id},
+    {_id},
     data, 
     { upsert: true, new: true },
   );
@@ -149,5 +155,6 @@ module.exports = {
   createShop,
   deleteRegisterRoleDraftById,
   findShop,
-  createOrUpdateShopDetail
+  createOrUpdateShopDetail,
+  updateRole
 };

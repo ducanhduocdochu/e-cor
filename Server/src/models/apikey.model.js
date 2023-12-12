@@ -5,11 +5,6 @@ const COLLECTION_NAME = 'ApiKeys';
 
 const ApiKeySchema = new Schema(
   {
-    user_id: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'User',
-    },
     api_key: {
       type: String,
       required: true,

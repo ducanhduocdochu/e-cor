@@ -8,7 +8,7 @@ const router = express.Router();
 /**
  * Lấy thông tin người dùng
  */
-router.get('/profile', asyncHandler(userController.getProfile));
+router.get('/profile/:_id', asyncHandler(userController.getProfile));
 
 /**
  * Lấy thông tin người dùng

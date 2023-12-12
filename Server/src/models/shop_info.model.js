@@ -5,11 +5,6 @@ const COLLECTION_NAME = 'Shops';
 
 const ShopSchema = new Schema(
   {
-    user_id: {
-      type: Schema.Types.ObjectId,
-      required: true,
-      ref: 'User',
-    },
     address: {
       type: String,
       required: true,
